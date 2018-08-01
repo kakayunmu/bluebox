@@ -1,0 +1,25 @@
+package pers.kakayunmu.bluebox.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import pers.kakayunmu.bluebox.entity.Member;
+import pers.kakayunmu.bluebox.util.GlobalParam;
+
+import javax.servlet.http.HttpServletRequest;
+
+@Component
+public class Authorization {
+
+    @Autowired
+    private GlobalParam globalParam;
+    @Autowired
+    private HttpServletRequest httpServletRequest;
+
+    protected String getAuthorization(){
+        return httpServletRequest.getAttribute("authorization").toString();
+    }
+
+    protected Member getMember(){
+        return globalParam.get(getAuthorization());
+    }
+}

@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/bluebox?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true
+    username: kakayunmu
+    password: SSBit2016!@#
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    database: MYSQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+server:
+  port: 8080
+
+wechat:
+  appid: wx94e3c8276ad25ef9
+  secret: 4afb30f90810ed2cb571c21bc1050096
