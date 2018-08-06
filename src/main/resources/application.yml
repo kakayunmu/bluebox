@@ -1,5 +1,5 @@
 spring:
+  profiles:
+    active: prd
   application:
     name: bluebox
-  profiles:
-    active: dev

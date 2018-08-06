@@ -41,7 +41,7 @@ public class AuthorizationController {
     @RequestMapping(value = "/login/{jscode}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Object login(@PathVariable(value = "jscode") String jscode) throws Exception {
 
-        if("dev".equals(active)){
+        if(active.indexOf("dev")!=-1){
             return testLogin();
         }
 
