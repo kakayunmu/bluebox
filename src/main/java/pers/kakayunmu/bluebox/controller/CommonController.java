@@ -8,6 +8,7 @@ import pers.kakayunmu.bluebox.entity.Member;
 import pers.kakayunmu.bluebox.model.common.RetModel;
 import pers.kakayunmu.bluebox.model.wechat.UserInfo;
 import pers.kakayunmu.bluebox.repositorys.MemberRepository;
+import pers.kakayunmu.bluebox.util.JacksonUtil;
 
 @RestController
 @RequestMapping(value = "/api")
@@ -19,8 +20,8 @@ public class CommonController {
     private Authorization authorization;
 
     @RequestMapping(value = "/setUserInfo",method = RequestMethod.POST)
-    public Object setUserInfo(@NonNull UserInfo userInfo){
-        log.info("setUserInfo 参数============>{}",userInfo);
+    public Object setUserInfo(@RequestBody UserInfo userInfo){
+        log.info("setUserInfo 参数============>{}",JacksonUtil.toJson(userInfo));
         Member member= authorization.getMember();
         member.setName(userInfo.getNick_name());
         member.setGender(Integer.valueOf(userInfo.getGender()));
