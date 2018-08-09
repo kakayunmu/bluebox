@@ -9,15 +9,12 @@ import javax.validation.constraints.NotNull;
 @Table(name = "family")
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class Family {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    @Setter
     private Long id;
-
-    @Getter
-    @Setter
     @NotNull
     private String name;
 
