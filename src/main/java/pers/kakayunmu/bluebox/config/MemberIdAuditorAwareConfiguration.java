@@ -10,7 +10,7 @@ import pers.kakayunmu.bluebox.entity.Member;
  * JPA BaseEntity 获取当前用户配置
  */
 @Configuration
-public class MemberIdAuditorAware implements AuditorAware<Long> {
+public class MemberIdAuditorAwareConfiguration implements AuditorAware<Long> {
 
     @Autowired
     private Authorization authorization;
