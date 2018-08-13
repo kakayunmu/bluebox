@@ -1,27 +1,20 @@
-package pers.kakayunmu.bluebox.repositorys;
+package pers.kakayunmu.bluebox.controller;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import pers.kakayunmu.bluebox.entity.Lable;
-
-import java.util.List;
+import pers.kakayunmu.bluebox.repositorys.LableRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class LableRepositoryTest {
+public class LableTest {
     @Autowired
     private LableRepository lableRepository;
 
     @Test
-    public void findAll(){
-        List<Lable> lableList= lableRepository.findAll();
-
-        for(Lable lable :lableList){
-            System.out.println(lable.getName());
-        }
+    public void LableInitTest(){
+        LableController.InitLable(1,lableRepository);
     }
-
 }
