@@ -18,16 +18,25 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Lable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private String name;
-    private String remark;
-    private String icon;
+public class Lable extends BaseEntity {
+    private String name;//标签名称
+    private String remark;//备注
+    private String icon;//图标
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Goods> goods = new HashSet<>();
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    private Set<Goods> goods = new HashSet<>(); //标签包含的物件
+    private int isSys;//是否是系统添加的标签 0 系统 1 用户
+    /**
+     * 创建标签
+     *
+     * @param name   标签名称
+     * @param remark 备注
+     * @param icon   标签图标
+     * @param isSys  是否是系统添加的标签
+     */
+    public Lable(String name, String remark, String icon, int isSys) {
+        this.name = name;
+        this.remark = remark;
+        this.icon = icon;
+        this.isSys = isSys;
+    }
 }

@@ -15,17 +15,11 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "goods")
-public class Goods {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+public class Goods extends BaseEntity {
     private String imgUrl;
     private String name;
     private float price;
     private String position;
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "goods")
     private Set<Lable> lables=new HashSet();
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
 }
