@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pers.kakayunmu.bluebox.entity.Member;
 import pers.kakayunmu.bluebox.model.common.RetDataModel;
 import pers.kakayunmu.bluebox.model.common.RetModel;
+import pers.kakayunmu.bluebox.repositorys.LableRepository;
 import pers.kakayunmu.bluebox.repositorys.MemberRepository;
 import pers.kakayunmu.bluebox.service.WeChatService;
 import pers.kakayunmu.bluebox.util.GlobalParam;
@@ -33,6 +34,8 @@ public class AuthorizationController {
 
     @Autowired
     private MemberRepository memberRepository;
+    @Autowired
+    private LableRepository lableRepository;
     @Autowired
     private WeChatService weChatService;
     @Autowired
@@ -60,6 +63,7 @@ public class AuthorizationController {
             member.setOpenid(hashMap.get("openid").toString());
             member.setSession_key(hashMap.get("session_key").toString());
             memberRepository.save(member);
+            LableController.InitLable(member.getId(),lableRepository);// 初始化用户标签
             String uuid= UUID.randomUUID().toString();
             globalParam.push(uuid,member);
             return new RetDataModel(0, "登录成功",uuid);

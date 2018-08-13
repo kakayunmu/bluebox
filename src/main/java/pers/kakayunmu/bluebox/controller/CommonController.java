@@ -1,6 +1,5 @@
 package pers.kakayunmu.bluebox.controller;
 
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +18,11 @@ public class CommonController {
     @Autowired
     private Authorization authorization;
 
+    /**
+     * 创建/修改用户
+     * @param userInfo
+     * @return
+     */
     @RequestMapping(value = "/setUserInfo",method = RequestMethod.POST)
     public Object setUserInfo(@RequestBody UserInfo userInfo){
         log.info("setUserInfo 参数============>{}",JacksonUtil.toJson(userInfo));
