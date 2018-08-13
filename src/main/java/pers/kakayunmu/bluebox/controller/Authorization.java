@@ -15,11 +15,12 @@ public class Authorization {
     @Autowired
     private HttpServletRequest httpServletRequest;
 
-    protected String getAuthorization(){
-        return httpServletRequest.getAttribute("authorization").toString();
+    public String getAuthorization() {
+        Object authorization = httpServletRequest.getAttribute("authorization");
+        return authorization==null?null:authorization.toString();
     }
 
-    protected Member getMember(){
+    public Member getMember(){
         return globalParam.get(getAuthorization());
     }
 }
