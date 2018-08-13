@@ -48,7 +48,7 @@ public class GlobalParam {
      * @return
      */
     public <T> T get(String key) {
-        if (MAP.containsKey(key)) {
+        if (key!=null&& MAP.containsKey(key)) {
             Calendar nowTime = Calendar.getInstance();
             GlobalParamValue<T> ret = MAP.get(key);
             if(ret.getExpiryTime().before(nowTime.getTime())){
