@@ -61,7 +61,6 @@ public final class JacksonUtil {
             return objectMapper.writeValueAsString(object);
         }catch (Exception ex){
             log.warn("对象转字符串发生异常,详细：{}", ex.getMessage());
-        }finally {
             return  null;
         }
     }
