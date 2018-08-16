@@ -52,16 +52,16 @@ public class LableTest {
     @Test
     public void lableInitTest() {
         LableController.InitLable(member.getId(), lableRepository);
-        //httpServletRequest.setAttribute("authorization","testAuthorization");
-
     }
 
     @Test
-    public void findByMemberId() throws Exception {
+    public void getListTest() throws Exception {
+        globalParam.push("testAuthorization",member);
         String responseString = mockMvc.perform
                 (
-                        get("/api/lable/getByMember/1")          //请求的url,请求的方法是get
+                        get("/api/lable/getList")          //请求的url,请求的方法是get
                                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)//数据的格式
+                                .requestAttr("authorization","testAuthorization")
                 )
                 .andExpect(status().isOk())    //返回的状态是200
                 .andDo(print())         //打印出请求和相应的内容
