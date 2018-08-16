@@ -2,6 +2,7 @@ package pers.kakayunmu.bluebox.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -17,14 +18,18 @@ import java.util.Date;
 @Setter
 public abstract class BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id; //主键
+    @GeneratedValue(generator = "guieIdStrategy")
+    @GenericGenerator(name = "guieIdStrategy",strategy = "guid")
+    @Column(length = 36,nullable = false)
+    private String id; //主键
     @CreatedDate
     private Date createDate; //创建日期
     @CreatedBy
-    private long createBy;//创建人
+    private String createBy;//创建人
+    @Column(length = 36)
     @LastModifiedDate
     private Date lastModifiedDate;//最后更新日期
     @LastModifiedBy
-    private long lastModifiedBy;//最后更新人
+    @Column(length = 36)
+    private String lastModifiedBy;//最后更新人
 }

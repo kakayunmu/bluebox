@@ -6,37 +6,20 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "category")
 @NoArgsConstructor
-@AllArgsConstructor
-public class Category {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    @Setter
-    private Long id;
-
-    @Getter
-    @Setter
-    @NotNull
+@Getter
+@Setter
+public class Category extends BaseEntity {
+    @Column(length = 36, nullable = false)
     private String name;
-
-    @Getter
-    @Setter
-    private int parentId;
-
-    @Getter
-    @Setter
+    @Column(length = 36)
+    private String parentId;
+    @Column(length = 500)
     private String remarks;
-
-    @Getter
-    @Setter
-    private String icon="default";
-
-    @Getter
-    @Setter
-    private int isDel=0;
+    @Column(length = 50)
+    private String icon = "default";
+    private int isDel = 0;
 }

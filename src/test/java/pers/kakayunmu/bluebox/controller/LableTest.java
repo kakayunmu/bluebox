@@ -34,30 +34,30 @@ public class LableTest {
     @Autowired
     private MemberRepository memberRepository;
     @Autowired
-    private HttpServletRequest httpServletRequest;
+    private WebApplicationContext wac;
     @Autowired
     private GlobalParam globalParam;
+    @Autowired
+    private HttpServletRequest httpServletRequest;
 
     private MockMvc mockMvc;
-    @Autowired
-    private WebApplicationContext wac;
+    private Member member;// 系统管理员
 
     @Before
     public void before() {
-        httpServletRequest.setAttribute("authorization", "testAuthorization");
-        Member one = memberRepository.findOne(1l);
-        globalParam.push("testAuthorization", one);
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+        member=memberRepository.findByOpenid("SYSTEM");
     }
 
     @Test
     public void lableInitTest() {
-        LableController.InitLable(1, lableRepository);
+        LableController.InitLable(member.getId(), lableRepository);
+        //httpServletRequest.setAttribute("authorization","testAuthorization");
+
     }
 
     @Test
     public void findByMemberId() throws Exception {
-        ;
         String responseString = mockMvc.perform
                 (
                         get("/api/lable/getByMember/1")          //请求的url,请求的方法是get
@@ -72,15 +72,19 @@ public class LableTest {
     @Test
     public void saveTest() throws Exception {
         LableModel lableModel=new LableModel();
-        lableModel.setName("标签1");
+        lableModel.setId("f4c15f60-a104-11e8-8050-00e04c3602ed");
+        lableModel.setName("标签2");
         lableModel.setIsSys(1);
         lableModel.setRemark("这里是备注");
         String body=JacksonUtil.toJson(lableModel);
         System.out.println(body);
+        globalParam.push("testAuthorization",member);
+
         String responseString=mockMvc.perform(
                 post("/api/lable/save")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(body)
+                .requestAttr("authorization","testAuthorization")
         )
                 .andExpect(status().isOk())
                 .andDo(print())

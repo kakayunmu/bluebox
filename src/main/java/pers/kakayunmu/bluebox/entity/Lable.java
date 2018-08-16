@@ -19,10 +19,13 @@ import java.util.Set;
 @Getter
 @Setter
 public class Lable extends BaseEntity {
+    @Column(length = 50,nullable = false)
     private String name;//标签名称
+    @Column(length = 500)
     private String remark;//备注
+    @Column(length = 50)
     private String icon;//图标
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy = "lables")
     private Set<Goods> goods = new HashSet<>(); //标签包含的物件
     private int isSys;//是否是系统添加的标签 0 系统 1 用户
     /**

@@ -3,7 +3,6 @@ package pers.kakayunmu.bluebox.filter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import pers.kakayunmu.bluebox.entity.Member;
-import pers.kakayunmu.bluebox.repositorys.MemberRepository;
 import pers.kakayunmu.bluebox.util.GlobalParam;
 
 import javax.servlet.*;
@@ -26,7 +25,7 @@ public class AuthorizationFilter implements Filter {
     protected static List<Pattern> patterns = new ArrayList<Pattern>();
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
         patterns.add(Pattern.compile("api/login/.*"));
     }
 

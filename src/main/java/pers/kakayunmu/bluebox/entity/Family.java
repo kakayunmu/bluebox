@@ -1,6 +1,7 @@
 package pers.kakayunmu.bluebox.entity;
 
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -13,9 +14,12 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class Family {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "guieIdStrategy")
+    @GenericGenerator(name = "guieIdStrategy",strategy = "guid")
+    @Column(length = 36,nullable = false)
+    private String id;
     @NotNull
+    @Column(length = 50,nullable = false)
     private String name;
 
 }

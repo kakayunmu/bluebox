@@ -6,7 +6,7 @@ import lombok.Setter;
 public class CategoryModel {
     @Getter
     @Setter
-    private Long id;
+    private String id;
 
     @Getter
     @Setter

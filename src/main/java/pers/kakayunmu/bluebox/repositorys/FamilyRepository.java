@@ -7,6 +7,6 @@ import pers.kakayunmu.bluebox.entity.Family;
 import java.util.Optional;
 
 @Repository
-public interface FamilyRepository extends JpaRepository<Family,Long> {
+public interface FamilyRepository extends JpaRepository<Family,String> {
 
 }

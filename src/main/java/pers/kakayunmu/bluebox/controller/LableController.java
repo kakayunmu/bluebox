@@ -12,6 +12,7 @@ import pers.kakayunmu.bluebox.repositorys.LableRepository;
 import pers.kakayunmu.bluebox.util.JacksonUtil;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * 标签管理类
@@ -29,7 +30,7 @@ public class LableController {
      * @param memberId 用户Id
      * @param lableRepository 标签Repository
      */
-    public static void InitLable(long memberId, LableRepository lableRepository) {
+    public static void InitLable(String memberId, LableRepository lableRepository) {
         long count = lableRepository.countLableByCreateBy(memberId);
         ArrayList<Lable> lables = new ArrayList();
         if (count == 0l) {
@@ -46,7 +47,7 @@ public class LableController {
      * @return
      */
     @RequestMapping(value ="/getByMember/{memberId}",method = RequestMethod.GET)
-    public Object getByMember(@PathVariable(value = "memberId")long memberId){
+    public Object getByMember(@PathVariable(value = "memberId")String memberId){
         return new RetDataModel(0,"获取数据成功", lableRepository.findLablesByCreateBy(memberId));
     }
 
@@ -58,13 +59,14 @@ public class LableController {
     @RequestMapping(value = "/save",method = RequestMethod.POST)
     public Object save(@RequestBody LableModel lableModel){
         Lable lable=lableRepository.findOne(lableModel.getId());
-        if(lable==null){
-            lable=new Lable();
+        if(lable==null) {
+            lable = new Lable();
         }
         BeanUtils.copyProperties(lableModel,lable);
-        lable.setCreateBy(1);
         System.out.println("======>"+JacksonUtil.toJson(lable));
         lableRepository.save(lable);
         return  new RetModel(0,"保存标签成功");
     }
+
+
 }

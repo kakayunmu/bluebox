@@ -2,7 +2,7 @@
 spring:
   profiles: dev
   datasource:
-    url: jdbc:mysql://localhost:3306/bluebox?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&useSSL=false
+    url: jdbc:mysql://localhost:3306/bluebox?useUnicode=true&characterEncoding=utf-8&transformedBitIsBoolean=true&useSSL=false
     username: kakayunmu
     password: SSBit2016!@#
     driver-class-name: com.mysql.jdbc.Driver

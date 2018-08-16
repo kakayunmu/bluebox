@@ -32,6 +32,7 @@ public class JpaConfiguration {
             if(count==0l){
                 log.info("用户表初始化，创建管理员");
                 Member member=new Member();
+                member.setId("00000000-0000-0000-0000-000000000000");
                 member.setName("系统");
                 member.setOpenid("SYSTEM");
                 repository.save(member);

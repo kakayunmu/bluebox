@@ -17,9 +17,10 @@ import java.util.Set;
 @Table(name = "goods")
 public class Goods extends BaseEntity {
     private String imgUrl;
+    @Column(length = 50,nullable = false)
     private String name;
     private float price;
     private String position;
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "goods")
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Set<Lable> lables=new HashSet();
 }
