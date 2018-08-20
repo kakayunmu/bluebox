@@ -71,43 +71,80 @@ dependencies {
 }
 
 // 停止服务器应用
-task deployStop() << {
-    ssh.run {
-        session(remotes.deployServer) {
-            println 'stop service'
-            execute 'service bluebox stop'
+task deployStop() {
+    group 'service'
+    description '停止服务'
+    doFirst {
+        println 'stop service'
+    }
+    doLast {
+        ssh.run {
+            session(remotes.deployServer) {
+                execute 'service bluebox stop'
+            }
         }
     }
 }
 
 // 启动服务器
-task deployStart() << {
-    ssh.run {
-        session(remotes.deployServer) {
-            println 'start service start'
-            execute 'service bluebox start'
+task deployStart() {
+    group 'service'
+    description '启动服务'
+    doFirst {
+        println 'start service start'
+    }
+    doLast {
+        ssh.run {
+            session(remotes.deployServer) {
+                execute 'service bluebox start'
+            }
+        }
+    }
+}
+
+task deployRestart(){
+    group 'service'
+    description '重启服务器'
+    doFirst{
+        println 'start service restart'
+    }
+    doLast{
+        ssh.run {
+            session(remotes.deployServer) {
+                execute 'service bluebox restart'
+            }
         }
     }
 }
 
 // 将发布的文件ssh 方式传输到服务器
-task deployCopy() << {
-    ssh.run {
-        session(remotes.deployServer) {
-            println 'copy file to server'
-            put from: buildDir.toString() + '/libs/bluebox-' + version + '.jar', into: '/home/apps'
-            execute 'ls /home/apps'
+task deployCopy() {
+    group 'service'
+    description '复制jar 到服务器'
+    dependsOn bootRepackage
+    doFirst {
+        println 'copy file to server'
+    }
+    doLast {
+        ssh.run {
+            session(remotes.deployServer) {
+                put from: buildDir.toString() + '/libs/bluebox-' + version + '.jar', into: '/home/apps'
+                execute 'ls /home/apps'
+            }
         }
     }
 }
 
 
 // 打包发布到服务器
-task blueBox(dependsOn: [
-        bootRepackage,
-        deployStop,
-        deployCopy,
+task blueBox(){
+    dependsOn deployCopy
+    group 'service'
+    description '打包发布到服务器'
+    doFirst {
+        deployStop
+    }
+    doLast {
         deployStart
-]) << {
-
+    }
 }
