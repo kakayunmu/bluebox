@@ -18,9 +18,12 @@ public class MemberIdAuditorAwareConfiguration implements AuditorAware<String> {
     @Override
     public String getCurrentAuditor() {
         Member member = authorization.getMember();
-        if (member == null)
+        if (member == null) {
+            System.out.println("为获取到用户信息");
             return "00000000-0000-0000-0000-000000000000";
-        else
+        }else {
+            System.out.println("获取到用户信息"+member.getId());
             return member.getId();
+        }
     }
 }

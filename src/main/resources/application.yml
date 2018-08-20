@@ -3,3 +3,8 @@ spring:
     active: prd
   application:
     name: bluebox
+  http:
+      encoding:
+        charset: UTF-8
+        force: true
+        enabled: true
