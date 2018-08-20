@@ -1,16 +1,21 @@
 buildscript {
     repositories {
         mavenCentral()
+        jcenter()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE")
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE"
+        classpath "org.hidetake:gradle-ssh-plugin:2.9.0"
     }
 }
+
+
 
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'org.hidetake.ssh'
 
 group 'com.kakayunmu'
 version '1.0-SNAPSHOT'
@@ -21,14 +26,36 @@ dependencyManagement {
         mavenBom 'org.springframework.boot:spring-boot-dependencies:1.5.2.RELEASE'
     }
 }
-
+compileJava.options.encoding = 'UTF-8'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-repositories {
-    mavenCentral()
+springBoot {
+    executable = true
 }
 
+remotes {
+    webServer {
+
+    }
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+remotes {
+    deployServer {
+        host = '47.104.190.184'
+        port = 22
+        user = "root"
+    }
+}
+ssh.settings {
+    knownHosts = allowAnyHosts
+    identity = new File("~/.ssh/id_rsa")
+}
 
 
 dependencies {
@@ -41,4 +68,46 @@ dependencies {
     compile("org.springframework:spring-beans")
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile("junit:junit")
+}
+
+// 停止服务器应用
+task deployStop() << {
+    ssh.run {
+        session(remotes.deployServer) {
+            println 'stop service'
+            execute 'service bluebox stop'
+        }
+    }
+}
+
+// 启动服务器
+task deployStart() << {
+    ssh.run {
+        session(remotes.deployServer) {
+            println 'start service start'
+            execute 'service bluebox start'
+        }
+    }
+}
+
+// 将发布的文件ssh 方式传输到服务器
+task deployCopy() << {
+    ssh.run {
+        session(remotes.deployServer) {
+            println 'copy file to server'
+            put from: buildDir.toString() + '/libs/bluebox-' + version + '.jar', into: '/home/apps'
+            execute 'ls /home/apps'
+        }
+    }
+}
+
+
+// 打包发布到服务器
+task blueBox(dependsOn: [
+        bootRepackage,
+        deployStop,
+        deployCopy,
+        deployStart
+]) << {
+
 }
