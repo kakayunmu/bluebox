@@ -15,4 +15,5 @@ public class LableModel {
     private String icon;//图标
     private Set<GoodsModel> goods = new HashSet<>(); //标签包含的物件
     private int isSys;//是否是系统添加的标签 0 系统 1 用户
+    private long goodsCount;
 }
