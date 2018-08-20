@@ -2,7 +2,6 @@ package pers.kakayunmu.bluebox.util;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ClassUtils;
 import pers.kakayunmu.bluebox.model.common.GlobalParamValue;
 
 import javax.annotation.PreDestroy;
@@ -25,7 +24,7 @@ public class GlobalParam {
     }
 
     static Map<String, GlobalParamValue> replyMap() {
-        String path = ClassUtils.getDefaultClassLoader().getResource("").getPath();
+        String path = System.getProperty("user.dir");
         log.info("缓存文件位置" + path);
         String filePath = String.format("%s/.bluebox-cache", path);
         File file = new File(filePath);
@@ -50,7 +49,7 @@ public class GlobalParam {
 
     @PreDestroy
     public void destory() {
-        String path = ClassUtils.getDefaultClassLoader().getResource("").getPath();
+        String path = System.getProperty("user.dir");
         log.info("缓存文件位置" + path);
         String filePath = String.format("%s/.bluebox-cache", path);
         File file = new File(filePath);
