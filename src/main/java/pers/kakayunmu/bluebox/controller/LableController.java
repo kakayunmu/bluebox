@@ -3,9 +3,13 @@ package pers.kakayunmu.bluebox.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import pers.kakayunmu.bluebox.entity.Lable;
 import pers.kakayunmu.bluebox.entity.Member;
+import pers.kakayunmu.bluebox.entity.vo.LableVO;
 import pers.kakayunmu.bluebox.model.LableModel;
 import pers.kakayunmu.bluebox.model.common.RetDataModel;
 import pers.kakayunmu.bluebox.model.common.RetModel;
@@ -13,8 +17,6 @@ import pers.kakayunmu.bluebox.repositorys.LableRepository;
 import pers.kakayunmu.bluebox.util.JacksonUtil;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.UUID;
 
 /**
  * 标签管理类
@@ -51,18 +53,15 @@ public class LableController {
      *
      * @return
      */
-    @RequestMapping(value = "/getList", method = RequestMethod.GET)
-    public Object getList() {
+    @RequestMapping(value = {"/getList/{page}","/getList/{page}/{size}"}, method = RequestMethod.GET)
+    public Object getList(@PathVariable(value = "page")int page,@PathVariable(value = "size",required = false)int size) {
         Member member = authorization.getMember();
-        Iterable<Lable> lables = lableRepository.findLablesByCreateBy(member.getId());
-        HashSet<LableModel> lableModels = new HashSet();
-        for (Lable lable : lables) {
-            LableModel lableModel = new LableModel();
-            BeanUtils.copyProperties(lable, lableModel);
-            lableModels.add(lableModel);
+        if(size==0){// 如果未指定每页条数则默认每页10条数据
+            size=10;
         }
-        BeanUtils.copyProperties(lables, lableModels);
-        return new RetDataModel(0, "获取数据成功", lableModels);
+        Pageable pageable=new PageRequest(page,size);
+        Page<LableVO> ret= lableRepository.findLablesByCreateByWithGoodCount(pageable,member.getId());
+        return new RetDataModel(0, "获取数据成功", ret);
     }
 
     /**
